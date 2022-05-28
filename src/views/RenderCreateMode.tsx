@@ -319,14 +319,18 @@ function RenderView() {
                             onClick={() => {
                                 handleNewPaste(document, codeLanguage, publisher, password, (result: any) => {
 
-                                    if (result !== undefined) {
+                                    if (result === undefined) {
+                                        return
+                                    }
+
+                                    if (!result.cancelled) {
                                         setInformation(true)
                                         setInformationContent(result)
 
                                         setDocument(defaultDocumentTitle)
                                         setPassword("")
                                         setPublisher("Anonymus")
-                                    }
+                                    } else createToast(result.content, 3000, "warn")
 
                                 })
                             }}>Create</Button>
