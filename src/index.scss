@@ -1,0 +1,57 @@
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: auto;
+
+  background-color: #0058AB;
+  color: #fff;
+
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  .selectable {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+}
+
+.bottomContainer {
+  background-color: #fff;
+  border-radius: 7px;
+  height: 10vh;
+  box-shadow: 0 2px 2px 3px rgb(228, 228, 228);
+
+  .bottomSegment {
+    height: 100%;
+  }
+}
+
+.createButton, .deleteButton {
+  font-family: 'Chakra Petch', sans-serif;
+  text-transform: uppercase;
+}
+
+#navigation {
+  img {
+      margin-right: 20px;
+  }
+  .navigationTitle {
+      font-family: 'Chakra Petch', sans-serif;
+      font-weight: bold;
+      text-transform: uppercase;
+      cursor: pointer;
+      color: #fff;
+      font-size: 25px;
+  }
+  .navigationLink * {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 18px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #fff;
+  }
+}
