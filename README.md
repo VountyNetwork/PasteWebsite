@@ -2,6 +2,7 @@
 Official website source code of [paste.vounty.net](https://paste.vounty.net).
 
 # API
+#### All URLs are POST requests only.
 ```
 https://api.vounty.net/paste/create
 ```
