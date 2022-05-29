@@ -13,7 +13,7 @@ With the <mark style="background-color: #171717; color: #fff; border-radius: 7px
 | document | String      | No        |
 | language | String      | No        |
 | publisher | String      | No        |
-| Password | String      | Yes        |
+| password | String      | Yes        |
 ```
 https://api.vounty.net/paste/delete
 ```
