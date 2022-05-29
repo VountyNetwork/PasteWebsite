@@ -25,7 +25,9 @@ import {
     Select,
     Stack,
     Switch,
-    TextField
+    TextField,
+    useMediaQuery,
+    useTheme
 } from "@mui/material";
 
 import axios from "axios";
@@ -33,7 +35,7 @@ import axios from "axios";
 import {
     toast
 } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css'
 
 const languages = [
     "Markdown",
@@ -196,6 +198,9 @@ function RenderView() {
     const [information, setInformation] = useState(false)
     const [informationContent, setInformationContent] = useState(null)
 
+    const theme = useTheme()
+    const matches = useMediaQuery(theme.breakpoints.up('lg'))
+
     return <>
 
         <Dialog
@@ -251,8 +256,9 @@ function RenderView() {
         <Grid
             container
             justifyContent={`center`}
-            columns={{ xs: 1, sm: 2, md: 12 }}
-            sx={{ marginTop: `20px` }}>
+            alignItems={`center`}
+            columns={{ xs: 1, sm: 4, md: 12 }}
+            sx={{ marginTop: `20px`, marginBottom: `20px` }}>
             <Grid
                 className={`bottomContainer`}
                 item
@@ -264,78 +270,175 @@ function RenderView() {
                     className={`bottomSegment`}
                     direction={`row`}
                     justifyContent={`center`}
-                    columns={{ xs: 1, sm: 2, md: 12 }}
-                    alignItems={`center`}>
+                    alignItems={`center`}
+                    columnSpacing={2}
+                    rowSpacing={matches ? 0 : 3}>
 
-                    <Stack
-                        direction={`row`}
-                        spacing={2}
-                        sx={{ width: '75%' }}>
+                    {
+                        matches ?
+                            <>
+                                <Stack
+                                    direction={`row`}
+                                    spacing={2}>
 
-                        <FormControlLabel
-                            control={<Switch color="primary" checked={mode === 'vs-dark'} />}
-                            label={`Darkmode`}
-                            onClick={() => toggleMode()}
-                            labelPlacement={`end`}
-                            sx={{ color: '#171717' }}
-                        />
+                                    <FormControlLabel
+                                        control={<Switch color="primary" checked={mode === 'vs-dark'} />}
+                                        label={`Darkmode`}
+                                        onClick={() => toggleMode()}
+                                        labelPlacement={`end`}
+                                        sx={{ color: '#171717' }}
+                                    />
 
-                        <FormControl fullWidth>
-                            <InputLabel id="language-label">Language</InputLabel>
-                            <Select
-                                labelId="language-label"
-                                onChange={event => setCodeLanguage(getLanguageById(event.target.value))}
-                                value={getLanguageByName(codeLanguage)}
-                                label="Language">
-                                {
-                                    languages.map((language, index) => {
-                                        return <MenuItem key={index} value={index}>{language}</MenuItem>
-                                    })
-                                }
-                            </Select>
-                        </FormControl>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="language-label">Language</InputLabel>
+                                        <Select
+                                            labelId="language-label"
+                                            onChange={event => setCodeLanguage(getLanguageById(event.target.value))}
+                                            value={getLanguageByName(codeLanguage)}
+                                            label="Language">
+                                            {
+                                                languages.map((language, index) => {
+                                                    return <MenuItem key={index} value={index}>{language}</MenuItem>
+                                                })
+                                            }
+                                        </Select>
+                                    </FormControl>
 
-                        <Divider orientation="vertical" flexItem />
+                                    <Divider orientation="vertical" flexItem />
 
-                        <TextField
-                            label={`Name*`}
-                            variant={`outlined`}
-                            fullWidth
-                            onChange={event => setPublisher(event.target.value)}
-                            value={publisher} />
+                                    <TextField
+                                        label={`Name*`}
+                                        variant={`outlined`}
+                                        fullWidth
+                                        onChange={event => setPublisher(event.target.value)}
+                                        value={publisher} />
 
-                        <TextField
-                            label={`Password`}
-                            variant={`outlined`}
-                            type={`password`}
-                            fullWidth
-                            onChange={event => setPassword(event.target.value)}
-                            value={password} />
+                                    <TextField
+                                        label={`Password`}
+                                        variant={`outlined`}
+                                        type={`password`}
+                                        fullWidth
+                                        onChange={event => setPassword(event.target.value)}
+                                        value={password} />
 
-                        <Button
-                            fullWidth
-                            className={`createButton`}
-                            variant={`contained`}
-                            onClick={() => {
-                                handleNewPaste(document, codeLanguage, publisher, password, (result: any) => {
+                                    <Button
+                                        fullWidth
+                                        className={`createButton`}
+                                        variant={`contained`}
+                                        onClick={() => {
+                                            handleNewPaste(document, codeLanguage, publisher, password, (result: any) => {
 
-                                    if (result === undefined) {
-                                        return
-                                    }
+                                                if (result === undefined) {
+                                                    return
+                                                }
 
-                                    if (!result.cancelled) {
-                                        setInformation(true)
-                                        setInformationContent(result)
+                                                if (!result.cancelled) {
+                                                    setInformation(true)
+                                                    setInformationContent(result)
 
-                                        setDocument(defaultDocumentTitle)
-                                        setPassword("")
-                                        setPublisher("Anonymus")
-                                    } else createToast(result.content, 3000, "warn")
+                                                    setDocument(defaultDocumentTitle)
+                                                    setPassword("")
+                                                    setPublisher("Anonymus")
+                                                } else createToast(result.content, 3000, "warn")
 
-                                })
-                            }}>Create</Button>
+                                            })
+                                        }}>Create</Button>
 
-                    </Stack>
+                                </Stack>
+                            </>
+                            :
+                            <>
+                                <Grid
+                                    item
+                                    xs={10}>
+
+                                    <FormControlLabel
+                                        control={<Switch color="primary" checked={mode === 'vs-dark'} />}
+                                        label={`Darkmode`}
+                                        onClick={() => toggleMode()}
+                                        labelPlacement={`end`}
+                                        sx={{ color: '#171717', marginTop: `20px` }}
+                                    />
+
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={10}>
+
+                                    <FormControl fullWidth>
+                                        <InputLabel id="language-label">Language</InputLabel>
+                                        <Select
+                                            labelId="language-label"
+                                            onChange={event => setCodeLanguage(getLanguageById(event.target.value))}
+                                            value={getLanguageByName(codeLanguage)}
+                                            label="Language">
+                                            {
+                                                languages.map((language, index) => {
+                                                    return <MenuItem key={index} value={index}>{language}</MenuItem>
+                                                })
+                                            }
+                                        </Select>
+                                    </FormControl>
+
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={10}>
+
+                                    <TextField
+                                        label={`Name*`}
+                                        variant={`outlined`}
+                                        fullWidth
+                                        onChange={event => setPublisher(event.target.value)}
+                                        value={publisher} />
+
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={10}>
+
+                                    <TextField
+                                        label={`Password`}
+                                        variant={`outlined`}
+                                        type={`password`}
+                                        fullWidth
+                                        onChange={event => setPassword(event.target.value)}
+                                        value={password} />
+
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={10}>
+
+                                    <Button
+                                        fullWidth
+                                        className={`createButton`}
+                                        variant={`contained`}
+                                        size={`large`}
+                                        sx={{ marginBottom: `20px` }}
+                                        onClick={() => {
+                                            handleNewPaste(document, codeLanguage, publisher, password, (result: any) => {
+
+                                                if (result === undefined) {
+                                                    return
+                                                }
+
+                                                if (!result.cancelled) {
+                                                    setInformation(true)
+                                                    setInformationContent(result)
+
+                                                    setDocument(defaultDocumentTitle)
+                                                    setPassword("")
+                                                    setPublisher("Anonymus")
+                                                } else createToast(result.content, 3000, "warn")
+
+                                            })
+                                        }}>Create</Button>
+
+                                </Grid>
+                            </>
+                    }
+
 
                 </Grid>
 

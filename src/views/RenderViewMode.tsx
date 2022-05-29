@@ -26,7 +26,9 @@ import {
     Select,
     Stack,
     Switch,
-    TextField
+    TextField,
+    useMediaQuery,
+    useTheme
 } from "@mui/material";
 
 import axios from "axios";
@@ -240,6 +242,9 @@ function RenderView() {
         setMode(mode === 'vs-dark' ? 'light' : 'vs-dark')
     }
 
+    const theme = useTheme()
+    const matches = useMediaQuery(theme.breakpoints.up('lg'))
+
     return <>
 
         <Dialog
@@ -348,8 +353,9 @@ function RenderView() {
         <Grid
             container
             justifyContent={`center`}
-            columns={{ xs: 1, sm: 2, md: 12 }}
-            sx={{ marginTop: `20px` }}>
+            alignItems={`center`}
+            columns={{ xs: 1, sm: 4, md: 12 }}
+            sx={{ marginTop: `20px`, marginBottom: `20px` }}>
             <Grid
                 className={`bottomContainer`}
                 item
@@ -361,56 +367,124 @@ function RenderView() {
                     className={`bottomSegment`}
                     direction={`row`}
                     justifyContent={`center`}
-                    columns={{ xs: 1, sm: 2, md: 12 }}
-                    alignItems={`center`}>
+                    alignItems={`center`}
+                    columnSpacing={2}
+                    rowSpacing={matches ? 0 : 3}>
 
-                    <Stack
-                        direction={`row`}
-                        spacing={2}
-                        sx={{ width: '75%' }}>
+                    {
+                        matches ?
+                            <>
+                                <Stack
+                                    direction={`row`}
+                                    spacing={2}
+                                    sx={{ width: '75%' }}>
 
-                        <FormControlLabel
-                            control={<Switch color="primary" checked={mode === 'vs-dark'} />}
-                            label={`Darkmode`}
-                            onClick={() => toggleMode()}
-                            labelPlacement={`end`}
-                            sx={{ color: '#171717' }}
-                        />
+                                    <FormControlLabel
+                                        control={<Switch color="primary" checked={mode === 'vs-dark'} />}
+                                        label={`Darkmode`}
+                                        onClick={() => toggleMode()}
+                                        labelPlacement={`end`}
+                                        sx={{ color: '#171717' }}
+                                    />
 
-                        <FormControl fullWidth>
-                            <InputLabel id="language-label">Language</InputLabel>
-                            <Select
-                                disabled
-                                labelId="language-label"
-                                onChange={event => setCodeLanguage(getLanguageById(event.target.value))}
-                                value={getLanguageByName(codeLanguage)}
-                                label="Language">
-                                {
-                                    languages.map((language, index) => {
-                                        return <MenuItem key={index} value={index}>{language}</MenuItem>
-                                    })
-                                }
-                            </Select>
-                        </FormControl>
+                                    <FormControl fullWidth>
+                                        <InputLabel id="language-label">Language</InputLabel>
+                                        <Select
+                                            disabled
+                                            labelId="language-label"
+                                            onChange={event => setCodeLanguage(getLanguageById(event.target.value))}
+                                            value={getLanguageByName(codeLanguage)}
+                                            label="Language">
+                                            {
+                                                languages.map((language, index) => {
+                                                    return <MenuItem key={index} value={index}>{language}</MenuItem>
+                                                })
+                                            }
+                                        </Select>
+                                    </FormControl>
 
-                        <Divider orientation="vertical" flexItem />
+                                    <Divider orientation="vertical" flexItem />
 
-                        <TextField
-                            label={`Name*`}
-                            variant={`outlined`}
-                            fullWidth
-                            disabled
-                            onChange={event => setPublisher(event.target.value)}
-                            value={publisher} />
+                                    <TextField
+                                        label={`Name*`}
+                                        variant={`outlined`}
+                                        fullWidth
+                                        disabled
+                                        onChange={event => setPublisher(event.target.value)}
+                                        value={publisher} />
 
-                        <Button
-                            fullWidth
-                            className={`deleteButton`}
-                            variant={`contained`}
-                            color={`error`}
-                            onClick={() => setDeleting(true)}>Delete</Button>
+                                    <Button
+                                        fullWidth
+                                        className={`deleteButton`}
+                                        variant={`contained`}
+                                        color={`error`}
+                                        onClick={() => setDeleting(true)}>Delete</Button>
 
-                    </Stack>
+                                </Stack>
+                            </>
+                            :
+                            <>
+                                <Grid
+                                    item
+                                    xs={10}>
+
+                                    <FormControlLabel
+                                        control={<Switch color="primary" checked={mode === 'vs-dark'} />}
+                                        label={`Darkmode`}
+                                        onClick={() => toggleMode()}
+                                        labelPlacement={`end`}
+                                        sx={{ color: '#171717' }}
+                                    />
+
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={10}>
+
+                                    <FormControl fullWidth>
+                                        <InputLabel id="language-label">Language</InputLabel>
+                                        <Select
+                                            disabled
+                                            labelId="language-label"
+                                            onChange={event => setCodeLanguage(getLanguageById(event.target.value))}
+                                            value={getLanguageByName(codeLanguage)}
+                                            label="Language">
+                                            {
+                                                languages.map((language, index) => {
+                                                    return <MenuItem key={index} value={index}>{language}</MenuItem>
+                                                })
+                                            }
+                                        </Select>
+                                    </FormControl>
+
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={10}>
+
+                                    <TextField
+                                        label={`Name*`}
+                                        variant={`outlined`}
+                                        fullWidth
+                                        disabled
+                                        onChange={event => setPublisher(event.target.value)}
+                                        value={publisher} />
+
+                                </Grid>
+                                <Grid
+                                    item
+                                    xs={10}>
+
+                                    <Button
+                                        fullWidth
+                                        className={`deleteButton`}
+                                        variant={`contained`}
+                                        color={`error`}
+                                        onClick={() => setDeleting(true)}>Delete</Button>
+
+                                </Grid>
+                            </>
+                    }
 
                 </Grid>
 

@@ -19,14 +19,34 @@ body {
   }
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+ 
+::-webkit-scrollbar-thumb {
+  background: #014c92;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #00407c;
+}
+
 .bottomContainer {
   background-color: #fff;
   border-radius: 7px;
-  height: 10vh;
+  min-height: 10vh;
+  height: 100%;
   box-shadow: 0 2px 2px 3px rgb(228, 228, 228);
 
   .bottomSegment {
+    min-height: 10vh;
     height: 100%;
+    text-align: center;
+    color: #171717;
   }
 }
 
